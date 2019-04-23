@@ -1,34 +1,26 @@
 import socket
 import sys
 import traceback
+'''
+Tim Pauley
+Python 230 HW2 Updated
+Date 04/18/2019
 
+I went through the demo's and fixed /filled in the correct code
+'''
 
 def client(msg, log_buffer=sys.stderr):
     server_address = ('localhost', 10000)
-    # TODO: Replace the following line with your code which will instantiate
-    #       a TCP socket with IPv4 Addressing, call the socket you make 'sock'
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     print('connecting to {0} port {1}'.format(*server_address), file=log_buffer)
-    # TODO: connect your socket to the server here.
     sock.connect(server_address)
-    # you can use this variable to accumulate the entire message received back
-    # from the server
     received_message = b''
 
-    # this try/finally block exists purely to allow us to close the socket
-    # when we are finished with it
     try:
         print('sending "{0}"'.format(msg), file=log_buffer)
-        # TODO: send your message to the server here.
         sock.sendall(msg.encode('utf8'))
-        # TODO: the server should be sending you back your message as a series
-        #       of 16-byte chunks. Accumulate the chunks you get to build the
-        #       entire reply from the server. Make sure that you have received
-        #       the entire message and then you can break the loop.
         amt_received = 0
         amt_expected = len(msg)
-        #       Log each chunk you receive.  Use the print statement below to
-        #       do it. This will help in debugging problems
         while amt_received < amt_expected:
             data = sock.recv(16)
             amt_received += len(data)
